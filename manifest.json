@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Smart Time Manager",
+  "version": "1.0",
+  "description": "Analyze your browsing patterns and help manage your time better with AI recommendations and website blocking.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "webNavigation",
+    "tabs",
+    "notifications"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "128": "images/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

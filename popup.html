@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Time Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 18px;
+        }
+
+        input {
+            margin: 5px 0;
+            padding: 5px;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Smart Time Manager</h1>
+    <label for="blockList">Add websites to block:</label>
+    <input id="blockList" type="text" placeholder="e.g., facebook.com" />
+    <button id="addSite">Add Site</button>
+
+    <div id="blockedSitesList">
+        <h2>Blocked Sites:</h2>
+        <ul id="blockedSites"></ul>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
