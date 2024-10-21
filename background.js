@@ -61,3 +61,11 @@ function analyzePatterns() {
 
 // קריאה לפונקציה לניתוח דפוסים כל דקה
 setInterval(analyzePatterns, 60 * 1000);
+
+// קבלת הודעה מ-content.js כאשר ההודעה נסגרת
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "notificationClosed") {
+    lastNotificationClosedTime = Date.now();
+    console.log("Notification closed, resetting timer");
+  }
+});

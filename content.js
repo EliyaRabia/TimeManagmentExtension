@@ -34,6 +34,7 @@ function showBreakNotification() {
     .addEventListener("click", () => {
       document.body.removeChild(notification);
       notificationVisible = false;
+      chrome.runtime.sendMessage({ action: "notificationClosed" }); // שליחת הודעה ל-background.js
     });
 }
 
