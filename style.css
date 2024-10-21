@@ -1,0 +1,118 @@
+/* styles.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 350px;
+    padding: 20px;
+    background-color: #f0f4f8;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 26px;
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+label {
+    font-size: 16px;
+    color: #333;
+}
+
+input {
+    margin: 5px 0;
+    padding: 10px;
+    width: calc(100% - 22px);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#blockedSitesList {
+    margin-top: 20px;
+}
+
+#blockedSitesList h2 {
+    font-size: 20px;
+    color: #007bff;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#blockedSites {
+    list-style-type: none;
+    padding: 0;
+}
+
+#blockedSites li {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+#blockedSites li:hover {
+    transform: scale(1.02);
+}
+
+/* Styles for break notification */
+#break-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f9fa;
+    border: 2px solid #007bff;
+    padding: 30px;
+    z-index: 10000;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+#break-notification h2 {
+    margin: 0 0 10px;
+    color: #007bff;
+}
+
+#break-notification p {
+    margin: 0 0 20px;
+}
+
+#break-notification button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#break-notification button:hover {
+    background-color: #0056b3;
+}

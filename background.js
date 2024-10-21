@@ -1,8 +1,8 @@
 let browsingData = {};
 let blockedSites = ["facebook.com", "youtube.com"];
-let lastNotificationClosedTime = Date.now(); // משתנה גלובלי לעקוב אחרי הזמן האחרון שבו ההודעה נסגרה
+let lastNotificationClosedTime = Date.now(); // Track the last time the notification was closed
 
-// מעקב אחרי כל העמודים שנכנסים אליהם
+// Track all pages visited
 chrome.webNavigation.onCompleted.addListener((details) => {
   const url = new URL(details.url);
   const domain = url.hostname;
@@ -16,7 +16,7 @@ chrome.webNavigation.onCompleted.addListener((details) => {
   console.log("Visited:", domain, browsingData[domain]);
 });
 
-// ניתוח נתוני גלישה וניתוח דפוסים
+// Analyze browsing data and patterns
 function analyzePatterns() {
   let now = Date.now();
 
@@ -28,14 +28,14 @@ function analyzePatterns() {
     console.log("Analyzing:", domain, site);
 
     if (blockedSites.includes(domain) && site.timeSpent > 30 * 60 * 1000) {
-      // 30 דקות
+      // 30 minutes
       chrome.tabs.query({ url: `*://${domain}/*` }, (tabs) => {
         tabs.forEach((tab) => chrome.tabs.remove(tab.id));
       });
     }
   });
 
-  // המלצה על הפסקה
+  // Recommend a break
   const totalActiveTime = Object.values(browsingData).reduce(
     (acc, curr) => acc + curr.timeSpent,
     0
@@ -47,7 +47,7 @@ function analyzePatterns() {
     totalActiveTime > 1 * 60 * 1000 &&
     now - lastNotificationClosedTime > 1 * 60 * 1000
   ) {
-    // דקה של פעילות ודקה מאז ההודעה האחרונה נסגרה
+    // 1 minute of activity and 1 minute since the last notification was closed
     console.log("Sending break notification");
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0) {
@@ -59,10 +59,10 @@ function analyzePatterns() {
   }
 }
 
-// קריאה לפונקציה לניתוח דפוסים כל דקה
+// Call the function to analyze patterns every minute
 setInterval(analyzePatterns, 60 * 1000);
 
-// קבלת הודעה מ-content.js כאשר ההודעה נסגרת
+// Receive message from content.js when the notification is closed
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "notificationClosed") {
     lastNotificationClosedTime = Date.now();
