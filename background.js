@@ -1,6 +1,7 @@
 let browsingData = {};
 let blockedSites = [];
 let lastNotificationClosedTime = Date.now(); // Track the last time the notification was closed
+let notificationVisible = false; // Track whether the notification is currently visible
 
 // Load blocked sites from storage
 chrome.storage.local.get("blockedSites", (data) => {
@@ -54,9 +55,11 @@ function analyzePatterns() {
   // Check if the total active time exceeds 1 minute
   if (
     totalActiveTime > 1 * 60 * 1000 &&
-    now - lastNotificationClosedTime > 1 * 60 * 1000
+    now - lastNotificationClosedTime > 1 * 60 * 1000 &&
+    !notificationVisible // Ensure no additional notifications are sent while one is visible
   ) {
     console.log("Sending break notification");
+    notificationVisible = true; // Set the flag to indicate the notification is visible
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0) {
         chrome.tabs.sendMessage(tabs[0].id, {
@@ -74,6 +77,7 @@ setInterval(analyzePatterns, 60 * 1000);
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "notificationClosed") {
     lastNotificationClosedTime = Date.now();
+    notificationVisible = false; // Reset the flag when the notification is closed
     console.log("Notification closed, resetting timer");
   } else if (request.action === "updateBlockedSites") {
     blockedSites = request.blockedSites;
