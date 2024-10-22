@@ -1,11 +1,18 @@
 let browsingData = {};
-let blockedSites = ["facebook.com", "youtube.com"];
+let blockedSites = [];
 let lastNotificationClosedTime = Date.now(); // Track the last time the notification was closed
+
+// Load blocked sites from storage
+chrome.storage.local.get("blockedSites", (data) => {
+  if (data.blockedSites) {
+    blockedSites = data.blockedSites;
+  }
+});
 
 // Track all pages visited
 chrome.webNavigation.onCompleted.addListener((details) => {
   const url = new URL(details.url);
-  const domain = url.hostname;
+  const domain = url.hostname.replace(/^www\./, ""); // Normalize domain
 
   if (!browsingData[domain]) {
     browsingData[domain] = { timeSpent: 0, lastVisit: Date.now() };
@@ -27,6 +34,7 @@ function analyzePatterns() {
 
     console.log("Analyzing:", domain, site);
 
+    // Check if the site should be blocked
     if (blockedSites.includes(domain) && site.timeSpent > 30 * 60 * 1000) {
       // 30 minutes
       chrome.tabs.query({ url: `*://${domain}/*` }, (tabs) => {
@@ -43,11 +51,11 @@ function analyzePatterns() {
 
   console.log("Total active time:", totalActiveTime);
 
+  // Check if the total active time exceeds 1 minute
   if (
     totalActiveTime > 1 * 60 * 1000 &&
     now - lastNotificationClosedTime > 1 * 60 * 1000
   ) {
-    // 1 minute of activity and 1 minute since the last notification was closed
     console.log("Sending break notification");
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs.length > 0) {
@@ -67,5 +75,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "notificationClosed") {
     lastNotificationClosedTime = Date.now();
     console.log("Notification closed, resetting timer");
+  } else if (request.action === "updateBlockedSites") {
+    blockedSites = request.blockedSites;
   }
 });
