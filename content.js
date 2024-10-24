@@ -1,5 +1,3 @@
-// content.js
-
 function normalizeSiteInput(siteInput) {
   let url;
 
@@ -34,7 +32,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       updateBlockOverlay(blockedSites, currentUrl);
     });
   } else if (request.action === "showBreakNotification") {
-    showBreakNotification();
+    chrome.storage.local.get("blockedSites", (data) => {
+      const blockedSites = data.blockedSites || [];
+      const currentUrl = normalizeSiteInput(window.location.hostname);
+      if (!blockedSites.includes(currentUrl)) {
+        showBreakNotification();
+      }
+    });
   }
 });
 
@@ -82,10 +86,30 @@ function updateBlockOverlay(blockedSites, currentUrl) {
                   action: "updateBlockedSites",
                   blockedSites,
                 });
+                // Notify the background script to restart the time counting
+                chrome.runtime.sendMessage({
+                  action: "unblockSite",
+                  url: currentUrl,
+                });
+                // Re-execute content scripts on all open tabs
+                chrome.tabs.query({}, (tabs) => {
+                  tabs.forEach((tab) => {
+                    chrome.scripting.executeScript({
+                      target: { tabId: tab.id },
+                      files: ["content.js"],
+                    });
+                  });
+                });
               });
             }
           });
         });
+
+      // Notify the background script to pause the time counting
+      chrome.runtime.sendMessage({
+        action: "blockSite",
+        url: currentUrl,
+      });
     }
   } else {
     // If the site is not blocked, remove the overlay if it exists
@@ -96,6 +120,11 @@ function updateBlockOverlay(blockedSites, currentUrl) {
 }
 
 function showBreakNotification() {
+  const existingNotification = document.getElementById("break-notification");
+  if (existingNotification) {
+    document.body.removeChild(existingNotification);
+  }
+
   const notification = document.createElement("div");
   notification.id = "break-notification";
   notification.style.position = "fixed";
@@ -119,6 +148,7 @@ function showBreakNotification() {
 
   document.body.appendChild(notification);
 
+  // Ensure the event listener is attached correctly
   document
     .getElementById("close-notification")
     .addEventListener("click", () => {

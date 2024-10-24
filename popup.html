@@ -8,14 +8,40 @@
 </head>
 
 <body>
-    <h1>Smart Time Manager</h1>
-    <label for="blockList">Add websites to block:</label>
-    <input id="blockList" type="text" placeholder="e.g., facebook.com" />
-    <button id="addSite">Add Site</button>
+    <div id="mainContent">
+        <div id="settingsButton">
+            <button id="openSettings">⚙️</button>
+        </div>
 
-    <div id="blockedSitesList">
-        <h2>Blocked Sites:</h2>
-        <ul id="blockedSites"></ul>
+        <h1>Smart Time Manager</h1>
+        <label for="blockList">Add websites to block:</label>
+        <input id="blockList" type="text" placeholder="e.g., facebook.com" />
+        <button id="addSite">Add Site</button>
+
+        <div id="blockedSitesList">
+            <h2>Blocked Sites:</h2>
+            <ul id="blockedSites"></ul>
+        </div>
+    </div>
+
+    <div id="settingsContent" style="display: none;">
+        <h1>Settings</h1>
+        <div id="parentalControlToggle">
+            <label class="switch">
+                <input type="checkbox" id="toggleParentalControl">
+                <span class="slider round"></span>
+            </label>
+            <span>Parental control</span>
+        </div>
+
+        <div id="breakTimeSetting">
+            <label for="breakTime">Set break time (minutes):</label>
+            <input id="breakTime" type="number" min="1" placeholder="e.g., 60" />
+            <button id="setBreakTime" class="set-button">✔️</button>
+        </div>
+        <p id="currentBreakTime">Current set up time is 60 minutes</p>
+
+        <button id="goBack">Back</button>
     </div>
 
     <script src="popup.js"></script>

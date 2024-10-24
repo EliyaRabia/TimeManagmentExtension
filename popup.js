@@ -15,21 +15,28 @@ function normalizeSiteInput(siteInput) {
   }
 }
 
+let parentalControlEnabled = false;
+
 document.getElementById("addSite").addEventListener("click", () => {
   const site = document.getElementById("blockList").value.trim();
+  console.log("Add Site button clicked, site:", site);
 
   if (site) {
     const normalizedSite = normalizeSiteInput(site.toLowerCase());
+    console.log("Normalized site:", normalizedSite);
 
     chrome.storage.local.get("blockedSites", (data) => {
       let blockedSites = data.blockedSites || [];
+      console.log("Current blocked sites:", blockedSites);
 
       // Add the normalized site if it doesn't already exist
       if (!blockedSites.includes(normalizedSite)) {
         blockedSites.push(normalizedSite);
+        console.log("Updated blocked sites:", blockedSites);
 
         chrome.storage.local.set({ blockedSites }, () => {
           updateBlockedSitesList();
+          console.log("Blocked sites updated in storage");
 
           // Clear the input field
           document.getElementById("blockList").value = "";
@@ -48,6 +55,49 @@ document.getElementById("addSite").addEventListener("click", () => {
         alert("This site is already blocked.");
       }
     });
+  }
+});
+
+document.getElementById("openSettings").addEventListener("click", () => {
+  document.getElementById("mainContent").style.display = "none";
+  document.getElementById("settingsContent").style.display = "block";
+  // Fetch and display the break time from storage
+  chrome.storage.local.get("breakTime", (data) => {
+    const breakTime = data.breakTime || 60;
+    document.getElementById("breakTime").value = breakTime;
+    document.getElementById(
+      "currentBreakTime"
+    ).textContent = `Current set up time is ${breakTime} minutes`;
+  });
+});
+
+document.getElementById("goBack").addEventListener("click", () => {
+  document.getElementById("settingsContent").style.display = "none";
+  document.getElementById("mainContent").style.display = "block";
+});
+
+document
+  .getElementById("toggleParentalControl")
+  .addEventListener("change", (event) => {
+    parentalControlEnabled = event.target.checked;
+    chrome.storage.local.set({ parentalControlEnabled });
+    chrome.runtime.sendMessage({
+      action: "toggleParentalControl",
+      parentalControlEnabled,
+    });
+  });
+
+document.getElementById("setBreakTime").addEventListener("click", () => {
+  const breakTime = parseInt(document.getElementById("breakTime").value, 10);
+  if (!isNaN(breakTime) && breakTime > 0) {
+    chrome.storage.local.set({ breakTime });
+    chrome.runtime.sendMessage({ action: "updateBreakTime", breakTime });
+    document.getElementById(
+      "currentBreakTime"
+    ).textContent = `Current set up time is ${breakTime} minutes`;
+    console.log("Break time set to:", breakTime, "minutes");
+  } else {
+    alert("Please enter a valid break time.");
   }
 });
 
@@ -129,3 +179,20 @@ function handleDeleteSite(event) {
 }
 
 updateBlockedSitesList();
+
+// Load settings from storage
+chrome.storage.local.get(["parentalControlEnabled", "breakTime"], (data) => {
+  if (data.parentalControlEnabled) {
+    document.getElementById("toggleParentalControl").checked = true;
+  }
+  if (data.breakTime) {
+    document.getElementById("breakTime").value = data.breakTime;
+    document.getElementById(
+      "currentBreakTime"
+    ).textContent = `Current set up time is ${data.breakTime} minutes`;
+  } else {
+    document.getElementById(
+      "currentBreakTime"
+    ).textContent = `Current set up time is 60 minutes`;
+  }
+});
