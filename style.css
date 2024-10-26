@@ -32,21 +32,42 @@ input {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-button {
-    padding: 10px;
-    width: 100%;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+/* Center the button in the middle of the row */
+.button-container {
+    display: flex;
+    justify-content: center;
     margin-top: 10px;
-    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #0056b3;
+/* Enhanced styles for the "Add Site" button */
+.myButton {
+    box-shadow: inset 0px -1px 2px 2px #29bbff;
+    background: linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+    background-color: #2dabf9;
+    border-radius: 11px;
+    border: 1px solid #ccc;
+    /* Grey border */
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 19px;
+    padding: 9px 37px;
+    text-decoration: none;
+    text-shadow: 0px -1px 0px #263666;
+    text-align: center;
+    width: auto;
+    /* Adjust width to fit content */
+}
+
+.myButton:hover {
+    background: linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
+    background-color: #0688fa;
+}
+
+.myButton:active {
+    position: relative;
+    top: 1px;
 }
 
 #blockedSitesList {
@@ -68,15 +89,55 @@ button:hover {
 #blockedSites li {
     background-color: #fff;
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 5px 10px;
+    /* Reduced padding */
     margin-bottom: 5px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #blockedSites li:hover {
     transform: scale(1.02);
+}
+
+#blockedSites li span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+/* Styles for small "Edit" and "Delete" buttons */
+.editSite,
+.deleteSite {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.editSite:hover,
+.deleteSite:hover {
+    background-color: #0056b3;
+}
+
+.editSite:active,
+.deleteSite:active {
+    position: relative;
+    top: 1px;
 }
 
 /* Styles for break notification */
@@ -119,9 +180,11 @@ button:hover {
 
 /* Styles for settings button */
 #settingsButton {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    /* Reduced margin */
 }
 
 #settingsButton button {
@@ -131,25 +194,15 @@ button:hover {
     cursor: pointer;
 }
 
-/* Styles for Parental control toggle switch */
-#parentalControlToggle {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
+/* Adjust the size of the switch */
 .switch {
     position: relative;
     display: inline-block;
-    width: 34px;
+    width: 40px;
+    /* Increased width */
     height: 20px;
+    /* Increased height */
     margin-right: 10px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
 }
 
 .slider {
@@ -162,15 +215,18 @@ button:hover {
     background-color: #ccc;
     transition: 0.4s;
     border-radius: 20px;
+    /* Adjusted for the new size */
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 14px;
-    width: 14px;
-    left: 3px;
-    bottom: 3px;
+    height: 18px;
+    /* Adjusted height */
+    width: 18px;
+    /* Adjusted width */
+    left: 1px;
+    bottom: 1px;
     background-color: white;
     transition: 0.4s;
     border-radius: 50%;
@@ -181,22 +237,126 @@ input:checked+.slider {
 }
 
 input:checked+.slider:before {
-    transform: translateX(14px);
+    transform: translateX(20px);
+    /* Adjusted for new size */
 }
 
-/* Styles for Set button */
-.set-button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-left: 10px;
+/* Adjust layout for break-time setting */
+.break-time-setting {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.break-time-setting label {
+    flex-grow: 2;
+    /* Increase space for label */
+    text-align: right;
+    margin-right: 20px;
+    font-size: 16px;
+    /* Increase label font size */
+}
+
+.break-time-setting input {
+    flex-grow: 0;
+    width: 85px;
+    /* Decrease input width */
+    margin-right: 10px;
+    padding: 5px;
+    /* Adjust padding for a cleaner look */
+}
+
+.break-time-setting .set-button {
+    flex-grow: 0;
+    padding: 7px 20px;
+    background: linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+    background-color: #2dabf9;
+    border-radius: 11px;
+    border: 1px solid #ccc;
+    color: #ffffff !important;
+    font-family: Arial;
+    font-size: 16px;
+    text-decoration: none;
+    text-shadow: 0px -1px 0px #263666;
+    text-align: center;
     transition: background-color 0.3s ease;
+    margin-left: 15px;
+    /* Push button slightly more to the right */
 }
 
 .set-button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
+    background-color: #0688fa;
+}
+
+.set-button:active {
+    position: relative;
+    top: 1px;
+}
+
+/* Improved styles for Back button */
+#goBack {
+    padding: 7px 20px;
+    background: linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+    background-color: #2dabf9;
+    border-radius: 11px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff !important;
+    font-family: Arial;
+    font-size: 16px;
+    text-decoration: none;
+    text-shadow: 0px -1px 0px #263666;
+    text-align: center;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#goBack:hover {
+    background: linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
+    background-color: #0688fa;
+}
+
+#goBack:active {
+    position: relative;
+    top: 1px;
+}
+
+/* Ensure visibility of all elements in settingsContent */
+#settingsContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+#settingsContent h1,
+#settingsContent label,
+#settingsContent input,
+#settingsContent button,
+#settingsContent p {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#currentBreakTime,
+#settingsContent h1{
+    color: #007bff;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Soft blue text for current break time */
+.soft-blue-text,
+.settings-title {
+    color: #007bff !important;
+    /* Ensure high specificity */
+    text-align: center;
+    /* Center align text */
+    margin-top: 5px;
+    /* Reduce margin from the top */
 }

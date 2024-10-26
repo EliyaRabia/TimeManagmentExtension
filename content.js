@@ -65,7 +65,7 @@ function updateBlockOverlay(blockedSites, currentUrl) {
       overlay.style.zIndex = "10000";
       overlay.innerHTML = `
         <h1>This site is blocked</h1>
-        <p>You have added this site to the blocked list.</p>
+        <p>.You have added this site to the blocked list</p>
         <button id="delete-blocked-site">Unblock Site</button>
       `;
 
