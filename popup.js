@@ -15,8 +15,6 @@ function normalizeSiteInput(siteInput) {
   }
 }
 
-let parentalControlEnabled = false;
-
 document.getElementById("addSite").addEventListener("click", () => {
   const site = document.getElementById("blockList").value.trim();
   console.log("Add Site button clicked, site:", site);
@@ -75,17 +73,6 @@ document.getElementById("goBack").addEventListener("click", () => {
   document.getElementById("settingsContent").style.display = "none";
   document.getElementById("mainContent").style.display = "block";
 });
-
-document
-  .getElementById("toggleParentalControl")
-  .addEventListener("change", (event) => {
-    parentalControlEnabled = event.target.checked;
-    chrome.storage.local.set({ parentalControlEnabled });
-    chrome.runtime.sendMessage({
-      action: "toggleParentalControl",
-      parentalControlEnabled,
-    });
-  });
 
 document.getElementById("setBreakTime").addEventListener("click", () => {
   const breakTime = parseInt(document.getElementById("breakTime").value, 10);
@@ -181,10 +168,7 @@ function handleDeleteSite(event) {
 updateBlockedSitesList();
 
 // Load settings from storage
-chrome.storage.local.get(["parentalControlEnabled", "breakTime"], (data) => {
-  if (data.parentalControlEnabled) {
-    document.getElementById("toggleParentalControl").checked = true;
-  }
+chrome.storage.local.get(["breakTime"], (data) => {
   if (data.breakTime) {
     document.getElementById("breakTime").value = data.breakTime;
     document.getElementById(

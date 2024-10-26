@@ -194,17 +194,6 @@ input {
     cursor: pointer;
 }
 
-/* Adjust the size of the switch */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    /* Increased width */
-    height: 20px;
-    /* Increased height */
-    margin-right: 10px;
-}
-
 .slider {
     position: absolute;
     cursor: pointer;
@@ -215,7 +204,6 @@ input {
     background-color: #ccc;
     transition: 0.4s;
     border-radius: 20px;
-    /* Adjusted for the new size */
 }
 
 .slider:before {

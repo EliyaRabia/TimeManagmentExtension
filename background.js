@@ -3,7 +3,6 @@ let blockedSites = [];
 let lastNotificationClosedTime = Date.now(); // Track the last time the notification was closed
 let notificationVisible = {}; // Track whether the notification is currently visible per tab
 let blockedSitesFlags = {}; // Track blocked sites and their flags
-let parentalControlEnabled = false; // Track whether the Parental control is enabled
 let breakTime = 60; // Default break time in minutes
 
 // Load blocked sites from storage
@@ -129,23 +128,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     } catch (error) {
       console.error("Failed to construct URL for request:", request, error);
     }
-  } else if (request.action === "toggleParentalControl") {
-    parentalControlEnabled = request.parentalControlEnabled;
-    console.log(
-      "Parental control",
-      parentalControlEnabled ? "enabled" : "disabled"
-    );
-  } else if (request.action === "updateBreakTime") {
+  }  else if (request.action === "updateBreakTime") {
     breakTime = request.breakTime;
     console.log("Break time updated to:", breakTime, "minutes");
   }
 });
 
 // Load settings from storage
-chrome.storage.local.get(["parentalControlEnabled", "breakTime"], (data) => {
-  if (data.parentalControlEnabled !== undefined) {
-    parentalControlEnabled = data.parentalControlEnabled;
-  }
+chrome.storage.local.get(["breakTime"], (data) => {
   if (data.breakTime !== undefined) {
     breakTime = data.breakTime;
   }
