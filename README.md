@@ -1,7 +1,7 @@
 # TimeManagementExtension
 
 ## About
-This extension is designed to help you be more responsible and organized. By using this extension, you can block distracting websites to help you stay focused. Additionally, the extension will remind you to take breaks to maintain productivity and avoid burnout.
+This extension is designed to help you be more responsible and organized. By using this extension, you can block distracting websites to help you stay focused.<br> Additionally, the extension will remind you to take breaks to maintain productivity and avoid burnout.
 
 ## Instructions
 You can block and manage distracting websites, as well as receive reminders to take breaks. The default break time is set to 1 minute. To adjust the break time, enter the settings and set the desired time.
