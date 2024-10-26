@@ -25,6 +25,9 @@ To help you maintain productivity and avoid burnout, the extension will remind y
 3. You can set the break time interval in the settings.
 
 ## Screenshots
+![Screenshot 2024-10-26 132519](https://github.com/user-attachments/assets/40672913-7628-4964-aa7d-053f6870b9d1)
+![Screenshot 2024-10-26 131919](https://github.com/user-attachments/assets/5efd664b-7ce5-4408-a87d-66b1a9537cd6)
+![Screenshot 2024-10-26 131854](https://github.com/user-attachments/assets/8712bbb3-c835-402c-930c-8b57996815c3)
 
 
 ## Download and Setup
