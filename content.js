@@ -141,7 +141,7 @@ function showBreakNotification() {
   notification.style.fontFamily = "Arial, sans-serif";
   notification.style.color = "#333";
   notification.innerHTML = `
-    <h2 style="margin: 0 0 10px; color: #007bff;">Time for a break!</h2>
+    <h2 style="margin: 0 0 10px; color: #007bff;">!Time for a break</h2>
     <p style="margin: 0 0 20px;">.You've been active for a minute. Take a short break</p>
     <button id="close-notification" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Close</button>
   `;
